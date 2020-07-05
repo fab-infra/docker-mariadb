@@ -1,5 +1,5 @@
-# MariaDB server based on openSUSE Leap 15.1
-FROM fcrespel/base-image:opensuse15.1
+# MariaDB server based on openSUSE Leap 15.2
+FROM fcrespel/base-image:opensuse15.2
 
 # MariaDB
 RUN zypper in -y mariadb &&\
