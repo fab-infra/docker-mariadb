@@ -52,16 +52,20 @@ mysql_initial_setup() {
 	echo "DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';" | mysql_exec
 
 	if [ -n "$MYSQL_DATABASE" ]; then
-		echo "Creating database $MYSQL_DATABASE..."
-		echo "CREATE DATABASE \`$MYSQL_DATABASE\`;" | mysql_exec
+		for MYSQL_DB in ${MYSQL_DATABASE//,/ }; do
+			echo "Creating database $MYSQL_DB..."
+			echo "CREATE DATABASE \`$MYSQL_DB\`;" | mysql_exec
+		done
 	fi
 
 	if [ -n "$MYSQL_USER" -a -n "$MYSQL_PASSWORD" ]; then
 		echo "Creating user $MYSQL_USER..."
 		echo "CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';" | mysql_exec
 		if [ -n "$MYSQL_DATABASE" ]; then
-			echo "Granting user $MYSQL_USER all privileges on database $MYSQL_DATABASE..."
-			echo "GRANT ALL PRIVILEGES ON \`$MYSQL_DATABASE\`.* TO '$MYSQL_USER'@'%';" | mysql_exec
+			for MYSQL_DB in ${MYSQL_DATABASE//,/ }; do
+				echo "Granting user $MYSQL_USER all privileges on database $MYSQL_DB..."
+				echo "GRANT ALL PRIVILEGES ON \`$MYSQL_DB\`.* TO '$MYSQL_USER'@'%';" | mysql_exec
+			done
 		fi
 	fi
 
