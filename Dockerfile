@@ -7,8 +7,7 @@ RUN zypper in -y mariadb &&\
 
 # Files
 COPY ./root /
-RUN chmod +x /run.sh &&\
-	chmod a+rw /etc/passwd /etc/group &&\
+RUN chmod a+rw /etc/passwd /etc/group &&\
 	mkdir -p /var/lib/mysql /var/run/mysql &&\
 	chmod -R a+rwX /var/lib/mysql /var/run/mysql
 
